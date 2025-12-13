@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seminario Bíblico Logos - Clases Grabadas</title>
+    <!-- Tailwind CSS para el diseño -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Estilos para pestañas */
+        .tab-btn.active {
+            border-bottom: 3px solid #4f46e5; /* Indigo-600 */
+            color: #4f46e5;
+            font-weight: 700;
+        }
+        .tab-btn {
+            color: #6b7280; /* Gray-500 */
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 min-h-screen text-slate-800 flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-indigo-900 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-8 md:py-10">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0 text-center md:text-left">
+                    <span class="bg-indigo-700 text-indigo-100 text-xs font-semibold px-2.5 py-0.5 rounded uppercase tracking-wide">Plataforma Educativa</span>
+                    <h1 class="text-3xl md:text-4xl font-bold mt-2">Seminario Bíblico Logos</h1>
+                    <p class="text-indigo-200 mt-2 text-lg">Recursos y Clases Grabadas</p>
+                </div>
+                <div class="text-center md:text-right">
+                    <div class="inline-block bg-white/10 p-4 rounded-lg backdrop-blur-sm">
+                        <p class="text-sm text-indigo-200 uppercase tracking-wider mb-1">Docentes</p>
+                        <p class="font-semibold text-lg leading-tight">Cristóbal Yévenes</p>
+                        <p class="font-semibold text-lg leading-tight">& Estrella Solorza</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenedor Principal -->
+    <main class="container mx-auto px-4 py-8 max-w-6xl flex-grow">
+        
+        <!-- Pestañas de Navegación -->
+        <div class="bg-white rounded-t-xl shadow-sm border-b border-gray-200 mb-6 sticky top-0 z-10">
+            <div class="flex justify-center md:justify-start overflow-x-auto">
+                <button onclick="switchTab('year3')" id="tab-year3" class="tab-btn active px-8 py-4 text-lg transition-colors duration-200 focus:outline-none flex items-center gap-2">
+                    <i class="fa-solid fa-book-open"></i> 3° Año
+                </button>
+                <button onclick="switchTab('year6')" id="tab-year6" class="tab-btn px-8 py-4 text-lg transition-colors duration-200 focus:outline-none flex items-center gap-2">
+                    <i class="fa-solid fa-graduation-cap"></i> 6° Año
+                </button>
+            </div>
+        </div>
+
+        <!-- CONTENIDO 3° AÑO -->
+        <div id="content-year3" class="fade-in">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-indigo-600 pl-3">Materias de Tercer Año</h2>
+                <p class="text-gray-500 mt-1 pl-4">Accede a las listas de reproducción completas para cada materia.</p>
+            </div>
+
+            <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
+                <!-- Teología Juanina -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col border border-gray-100">
+                    <div class="bg-blue-50 p-4 border-b border-blue-100 flex justify-between items-center">
+                        <h3 class="font-bold text-blue-900 text-lg">Teología Juanina</h3>
+                        <i class="fa-solid fa-book-bible text-blue-400 text-xl"></i>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <p class="text-gray-600 mb-4">
+                            Estudio profundo de los escritos del apóstol Juan: Evangelio, Epístolas y conceptos teológicos clave.
+                        </p>
+                    </div>
+                    <div class="p-4 bg-gray-50 mt-auto">
+                        <a href="https://www.youtube.com/playlist?list=PLuSCiEP67LZruyjDUVjsjodoP562s4IWP" target="_blank" class="block w-full text-center bg-white border border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white font-semibold py-3 px-4 rounded transition-colors duration-300 shadow-sm">
+                            <i class="fa-brands fa-youtube mr-2"></i> Ver Lista de Clases
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Hechos -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col border border-gray-100">
+                    <div class="bg-amber-50 p-4 border-b border-amber-100 flex justify-between items-center">
+                        <h3 class="font-bold text-amber-900 text-lg">Hechos de los Apóstoles</h3>
+                        <i class="fa-solid fa-earth-americas text-amber-400 text-xl"></i>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <p class="text-gray-600 mb-4">
+                            Historia de la iglesia primitiva, los viajes misioneros y la expansión del evangelio.
+                        </p>
+                    </div>
+                    <div class="p-4 bg-gray-50 mt-auto">
+                        <a href="https://www.youtube.com/playlist?list=PLuSCiEP67LZojs9wxnDLaNqXjwLjsCCzx" target="_blank" class="block w-full text-center bg-white border border-amber-600 text-amber-600 hover:bg-amber-600 hover:text-white font-semibold py-3 px-4 rounded transition-colors duration-300 shadow-sm">
+                            <i class="fa-brands fa-youtube mr-2"></i> Ver Lista de Clases
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Poéticos -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col border border-gray-100">
+                    <div class="bg-emerald-50 p-4 border-b border-emerald-100 flex justify-between items-center">
+                        <h3 class="font-bold text-emerald-900 text-lg">Libros Poéticos</h3>
+                        <i class="fa-solid fa-feather-pointed text-emerald-400 text-xl"></i>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <p class="text-gray-600 mb-4">
+                            Análisis literario y espiritual de Salmos, Proverbios, Job, Eclesiastés y Cantares.
+                        </p>
+                    </div>
+                    <div class="p-4 bg-gray-50 mt-auto">
+                        <a href="https://www.youtube.com/playlist?list=PLuSCiEP67LZqcFShdUPDp3BImSGxqKwD5" target="_blank" class="block w-full text-center bg-white border border-emerald-600 text-emerald-600 hover:bg-emerald-600 hover:text-white font-semibold py-3 px-4 rounded transition-colors duration-300 shadow-sm">
+                            <i class="fa-brands fa-youtube mr-2"></i> Ver Lista de Clases
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Romanos -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col border border-gray-100">
+                    <div class="bg-rose-50 p-4 border-b border-rose-100 flex justify-between items-center">
+                        <h3 class="font-bold text-rose-900 text-lg">Epístola a los Romanos</h3>
+                        <i class="fa-solid fa-scroll text-rose-400 text-xl"></i>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <p class="text-gray-600 mb-4">
+                            Exposición doctrinal fundamental sobre la justificación, la fe y la vida cristiana.
+                        </p>
+                    </div>
+                    <div class="p-4 bg-gray-50 mt-auto">
+                        <a href="https://www.youtube.com/playlist?list=PLuSCiEP67LZodLZEnIy0zGZvna1RhHjvZ" target="_blank" class="block w-full text-center bg-white border border-rose-600 text-rose-600 hover:bg-rose-600 hover:text-white font-semibold py-3 px-4 rounded transition-colors duration-300 shadow-sm">
+                            <i class="fa-brands fa-youtube mr-2"></i> Ver Lista de Clases
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENIDO 6° AÑO (Oculto inicialmente) -->
+        <div id="content-year6" class="hidden fade-in">
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-800 border-l-4 border-purple-600 pl-3">Materias de Sexto Año</h2>
+                <p class="text-gray-500 mt-1 pl-4">Estudios avanzados y preparación ministerial.</p>
+            </div>
+
+            <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
+                <!-- Cartas Paulinas II -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col border border-gray-100">
+                    <div class="bg-purple-50 p-4 border-b border-purple-100 flex justify-between items-center">
+                        <h3 class="font-bold text-purple-900 text-lg">Cartas Paulinas II</h3>
+                        <i class="fa-solid fa-envelope-open-text text-purple-400 text-xl"></i>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <p class="text-gray-600 mb-4">
+                            Estudio continuado de las epístolas del apóstol Pablo y su aplicación eclesial.
+                        </p>
+                    </div>
+                    <div class="p-4 bg-gray-50 mt-auto">
+                        <a href="https://www.youtube.com/playlist?list=PLuSCiEP67LZoykWRcE4cp0IWqpzGSXkPP" target="_blank" class="block w-full text-center bg-white border border-purple-600 text-purple-600 hover:bg-purple-600 hover:text-white font-semibold py-3 px-4 rounded transition-colors duration-300 shadow-sm">
+                            <i class="fa-brands fa-youtube mr-2"></i> Ver Lista de Clases
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Escatología -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col border border-gray-100">
+                    <div class="bg-slate-50 p-4 border-b border-slate-200 flex justify-between items-center">
+                        <h3 class="font-bold text-slate-900 text-lg">Escatología</h3>
+                        <i class="fa-solid fa-hourglass-half text-slate-500 text-xl"></i>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <p class="text-gray-600 mb-4">
+                            Doctrina de las últimas cosas, profecía bíblica y el plan final de Dios.
+                        </p>
+                    </div>
+                    <div class="p-4 bg-gray-50 mt-auto">
+                        <a href="https://www.youtube.com/playlist?list=PLuSCiEP67LZrNZV1m5ga66lO8gjC5jgx7" target="_blank" class="block w-full text-center bg-white border border-slate-600 text-slate-600 hover:bg-slate-600 hover:text-white font-semibold py-3 px-4 rounded transition-colors duration-300 shadow-sm">
+                            <i class="fa-brands fa-youtube mr-2"></i> Ver Lista de Clases
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Discipulado Dinámico -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col border border-gray-100">
+                    <div class="bg-orange-50 p-4 border-b border-orange-100 flex justify-between items-center">
+                        <h3 class="font-bold text-orange-900 text-lg">Discipulado Dinámico</h3>
+                        <i class="fa-solid fa-people-arrows text-orange-400 text-xl"></i>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <p class="text-gray-600 mb-4">
+                            Herramientas prácticas para la formación de creyentes y liderazgo efectivo.
+                        </p>
+                    </div>
+                    <div class="p-4 bg-gray-50 mt-auto">
+                        <a href="https://www.youtube.com/playlist?list=PLuSCiEP67LZoWJDwZDjrFQkXo2o9CrCxl" target="_blank" class="block w-full text-center bg-white border border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white font-semibold py-3 px-4 rounded transition-colors duration-300 shadow-sm">
+                            <i class="fa-brands fa-youtube mr-2"></i> Ver Lista de Clases
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Epístolas Universales -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-shadow duration-300 flex flex-col border border-gray-100">
+                    <div class="bg-cyan-50 p-4 border-b border-cyan-100 flex justify-between items-center">
+                        <h3 class="font-bold text-cyan-900 text-lg">Epístolas Universales</h3>
+                        <i class="fa-solid fa-globe text-cyan-400 text-xl"></i>
+                    </div>
+                    <div class="p-6 flex-grow">
+                        <p class="text-gray-600 mb-4">
+                            Santiago, Pedro, Juan y Judas: Exhortaciones a la iglesia general.
+                        </p>
+                    </div>
+                    <div class="p-4 bg-gray-50 mt-auto">
+                        <a href="https://www.youtube.com/playlist?list=PLuSCiEP67LZpg_W3L6NG-6NYehfSd76Zf" target="_blank" class="block w-full text-center bg-white border border-cyan-600 text-cyan-600 hover:bg-cyan-600 hover:text-white font-semibold py-3 px-4 rounded transition-colors duration-300 shadow-sm">
+                            <i class="fa-brands fa-youtube mr-2"></i> Ver Lista de Clases
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mt-12 text-center text-gray-400 text-sm pb-8 border-t border-gray-200 pt-8">
+            <p class="font-semibold">&copy; 2025 Seminario Bíblico Logos</p>
+            <p class="text-xs mt-1">Material exclusivo para estudiantes regulares.</p>
+        </footer>
+
+    </main>
+
+    <!-- LÓGICA DE PESTAÑAS -->
+    <script>
+        function switchTab(year) {
+            // Elementos de contenido
+            const content3 = document.getElementById('content-year3');
+            const content6 = document.getElementById('content-year6');
+            
+            // Botones
+            const btn3 = document.getElementById('tab-year3');
+            const btn6 = document.getElementById('tab-year6');
+
+            if (year === 'year3') {
+                // Mostrar Año 3
+                content3.classList.remove('hidden');
+                content6.classList.add('hidden');
+                
+                // Activar botón 3
+                btn3.classList.add('active');
+                btn6.classList.remove('active');
+            } else {
+                // Mostrar Año 6
+                content6.classList.remove('hidden');
+                content3.classList.add('hidden');
+                
+                // Activar botón 6
+                btn6.classList.add('active');
+                btn3.classList.remove('active');
+            }
+        }
+        
+        // Ejecutar al cargar la página para asegurar que 3° Año esté activo por defecto
+        window.onload = function() {
+            switchTab('year3');
+        }
+    </script>
+</body>
+</html>
