@@ -143,6 +143,27 @@
             box-shadow: 0 4px 6px rgba(10, 51, 82, 0.5); /* Sombra azul */
             transform: translateY(-1px);
         }
+        
+        /* Estilos para la sección de Herramientas (Grid ahora, no carrusel) */
+        .tool-card .description {
+            /* Asegura que el texto se ajuste dentro de la tarjeta */
+            word-wrap: break-word;
+            white-space: normal;
+        }
+        /* Ajuste de Pestañas: 5 columnas en móvil/md, flex en desktop */
+        .tabs-grid {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 0.25rem; /* gap-1 */
+        }
+        @media (min-width: 768px) {
+            .tabs-grid {
+                display: flex;
+                justify-content: flex-start;
+                gap: 1rem; /* space-x-4 */
+                padding-bottom: 0;
+            }
+        }
 
     </style>
 </head>
@@ -153,7 +174,7 @@
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
-    <!-- LÓGICA JAVASCRIPT (Copiado y Checkbox) -->
+    <!-- LÓGICA JAVASCRIPT (Copiado, Checkbox y Visor PDF) -->
     <script>
         // LÓGICA DE COPIADO
         function copyToClipboard(textToCopy, element) {
@@ -197,6 +218,39 @@
                 }
             });
         }
+
+        // LÓGICA DEL VISOR DE PDF INCRUSTADO
+        function openPdfViewer(url, title) {
+            const modal = document.getElementById('pdfViewerModal');
+            const iframe = document.getElementById('pdfIframe');
+            const modalTitle = document.getElementById('modalTitle');
+            
+            // 1. Establecer título
+            modalTitle.textContent = title || "Previsualización de Documento";
+
+            // 2. Formatear la URL para visualización incrustada de Google Drive
+            let fileIdMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)\//);
+            let embedUrl = url;
+
+            if (fileIdMatch && fileIdMatch[1]) {
+                const fileId = fileIdMatch[1];
+                embedUrl = `https://drive.google.com/file/d/${fileId}/preview`;
+            }
+
+            // 3. Cargar iframe y mostrar modal
+            iframe.src = embedUrl;
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevenir scroll de fondo
+        }
+
+        function closePdfViewer() {
+            const modal = document.getElementById('pdfViewerModal');
+            const iframe = document.getElementById('pdfIframe');
+            
+            modal.classList.add('hidden');
+            iframe.src = ""; // Limpiar y detener la carga del iframe
+            document.body.style.overflow = 'auto'; // Restaurar scroll
+        }
     </script>
 
     <!-- CONTENIDO PRINCIPAL -->
@@ -220,10 +274,25 @@
 
         <!-- Contenedor Principal -->
         <main class="container mx-auto px-4 py-8 max-w-6xl flex-grow">
+
+            <!-- 3. SECCIÓN DE ANUNCIOS Y ALERTAS ACADÉMICAS -->
+            <div class="mb-8 p-4 bg-yellow-100 border-l-4 border-yellow-500 rounded-xl shadow-md flex items-start gap-4" role="alert">
+                <i class="fa-solid fa-bell text-2xl text-yellow-600 mt-1 flex-shrink-0"></i>
+                <div>
+                    <h3 class="font-bold text-yellow-800 text-lg mb-1">Aviso Académico Importante</h3>
+                    <p class="text-yellow-700 font-semibold">
+                        Recuerda mantener tu mensualidad al día.
+                    </p>
+                    <a onclick="switchTab('transfer')" href="#" class="text-sm mt-1 inline-block font-medium text-yellow-800 hover:text-yellow-900 underline transition-colors">
+                        Ver datos de transferencia <i class="fa-solid fa-arrow-right ml-1 text-xs"></i>
+                    </a>
+                </div>
+            </div>
             
-            <!-- Pestañas de Navegación -->
+            <!-- Pestañas de Navegación (Ajustado a 5 columnas) -->
             <div class="bg-white rounded-xl shadow-lg border border-gray-100 mb-8 sticky top-0 z-10 p-2 relative">
-                <div class="grid grid-cols-4 gap-1 md:flex md:justify-start md:space-x-4 pb-2 md:pb-0">
+                <!-- Se cambió de grid-cols-4 a la clase tabs-grid que define 5 columnas para móvil/md -->
+                <div class="tabs-grid">
                     <button onclick="switchTab('year3')" id="tab-year3" class="tab-btn active px-2 md:px-6 py-3 text-sm md:text-lg transition-all duration-300 focus:outline-none rounded-lg flex justify-center items-center gap-1 md:gap-2">
                         <i class="fa-solid fa-book-open"></i> <span class="hidden md:inline">3° Año</span><span class="md:hidden">3°</span>
                     </button>
@@ -231,10 +300,14 @@
                         <i class="fa-solid fa-graduation-cap"></i> <span class="hidden md:inline">6° Año</span><span class="md:hidden">6°</span>
                     </button>
                     <button onclick="switchTab('documents')" id="tab-documents" class="tab-btn px-2 md:px-6 py-3 text-sm md:text-lg transition-all duration-300 focus:outline-none rounded-lg flex justify-center items-center gap-1 md:gap-2">
-                        <i class="fa-solid fa-file-pdf"></i> <span class="hidden md:inline">Documentos Oficiales</span><span class="md:hidden">Docs</span>
+                        <i class="fa-solid fa-file-pdf"></i> <span class="hidden md:inline">Documentos</span><span class="md:hidden">Docs</span>
                     </button>
                     <button onclick="switchTab('transfer')" id="tab-transfer" class="tab-btn px-2 md:px-6 py-3 text-sm md:text-lg transition-all duration-300 focus:outline-none rounded-lg flex justify-center items-center gap-1 md:gap-2">
                         <i class="fa-solid fa-money-bill-transfer"></i> <span class="hidden md:inline">Transferencias</span><span class="md:hidden">Transf.</span>
+                    </button>
+                    <!-- NUEVA PESTAÑA: Herramientas -->
+                    <button onclick="switchTab('tools')" id="tab-tools" class="tab-btn px-2 md:px-6 py-3 text-sm md:text-lg transition-all duration-300 focus:outline-none rounded-lg flex justify-center items-center gap-1 md:gap-2">
+                        <i class="fa-solid fa-wrench"></i> <span class="hidden md:inline">Herramientas</span><span class="md:hidden">Tools</span>
                     </button>
                 </div>
             </div>
@@ -462,7 +535,7 @@
 
                     <!-- Epístolas Universales -->
                     <div class="bg-white rounded-xl shadow-xl overflow-hidden flex flex-col border border-gray-100 hover:shadow-2xl transition-all duration-300">
-                        <div class="bg-light-module p-4 border-b-4 card-header-4 flex justify-between items-start md:items-center">
+                        <div class="bg-light-module p-4 border-b-4 card-header-4 flex flex-col md:flex-row justify-between items-start md:items-center">
                             <div>
                                 <h3 class="font-extrabold text-primary text-xl lg:text-2xl">Epístolas Universales</h3>
                             </div>
@@ -507,9 +580,13 @@
                             <p class="font-semibold text-primary text-lg mb-1">Presentación SBL</p>
                             <p class="text-sm text-gray-500">Documento informativo general sobre el seminario.</p>
                         </div>
-                        <a href="https://drive.google.com/file/d/1V_-0a-twN2D32Vyyt3sd43-dOg3KJqsr/view?usp=sharing" target="_blank" class="download-btn hover-accent-1 flex-shrink-0 font-semibold py-2 px-4 rounded-lg shadow-md">
-                            <i class="fa-solid fa-download"></i>
-                        </a>
+                        <button 
+                            onclick="openPdfViewer('https://drive.google.com/file/d/1V_-0a-twN2D32Vyyt3sd43-dOg3KJqsr/view?usp=sharing', 'Presentación SBL')" 
+                            class="download-btn hover-accent-1 flex-shrink-0 font-semibold py-2 px-4 rounded-lg shadow-md"
+                            title="Ver documento incrustado"
+                        >
+                            <i class="fa-solid fa-eye mr-1"></i> Ver
+                        </button>
                     </div>
                     
                     <!-- Ficha de inscripción SBL - Ícono Verde (Accent 2) -->
@@ -519,9 +596,13 @@
                             <p class="font-semibold text-primary text-lg mb-1">Ficha de Inscripción SBL</p>
                             <p class="text-sm text-gray-500">Formulario oficial para nuevos alumnos.</p>
                         </div>
-                        <a href="https://drive.google.com/file/d/1Hcz4WPzfrLrpiwri8uWWz-GgyHdau-Y5/view?usp=sharing" target="_blank" class="download-btn hover-accent-2 flex-shrink-0 font-semibold py-2 px-4 rounded-lg shadow-md">
-                            <i class="fa-solid fa-download"></i>
-                        </a>
+                        <button 
+                            onclick="openPdfViewer('https://drive.google.com/file/d/1Hcz4WPzfrLrpiwri8uWWz-GgyHdau-Y5/view?usp=sharing', 'Ficha de Inscripción SBL')" 
+                            class="download-btn hover-accent-2 flex-shrink-0 font-semibold py-2 px-4 rounded-lg shadow-md"
+                            title="Ver documento incrustado"
+                        >
+                            <i class="fa-solid fa-eye mr-1"></i> Ver
+                        </button>
                     </div>
 
                     <!-- Guía de Estudio - Ícono Naranja (Accent 3) -->
@@ -531,9 +612,13 @@
                             <p class="font-semibold text-primary text-lg mb-1">Guía de Estudio</p>
                             <p class="text-sm text-gray-500">Material de apoyo para estudios bíblicos y devocionales personales.</p>
                         </div>
-                        <a href="https://drive.google.com/file/d/1nyZAGF437N5uzoM8x0H8uv9UKblAkgwX/view?usp=sharing" target="_blank" class="download-btn hover-accent-3 flex-shrink-0 font-semibold py-2 px-4 rounded-lg shadow-md">
-                            <i class="fa-solid fa-download"></i>
-                        </a>
+                        <button 
+                            onclick="openPdfViewer('https://drive.google.com/file/d/1nyZAGF437N5uzoM8x0H8uv9UKblAkgwX/view?usp=sharing', 'Guía de Estudio')" 
+                            class="download-btn hover-accent-3 flex-shrink-0 font-semibold py-2 px-4 rounded-lg shadow-md"
+                            title="Ver documento incrustado"
+                        >
+                            <i class="fa-solid fa-eye mr-1"></i> Ver
+                        </button>
                     </div>
 
                     <!-- Meditaciones del libro de Hechos - Ícono Azul/Primary -->
@@ -543,14 +628,18 @@
                             <p class="font-semibold text-primary text-lg mb-1">Meditaciones del Libro de Hechos</p>
                             <p class="text-sm text-gray-500">Material de apoyo para la materia de Hechos de los Apóstoles.</p>
                         </div>
-                        <a href="https://drive.google.com/file/d/1CrTlbPfMyY-w-qMvk6qHNYaT4dI40eBk/view?usp=sharing" target="_blank" class="download-btn hover-accent-primary flex-shrink-0 font-semibold py-2 px-4 rounded-lg shadow-md">
-                            <i class="fa-solid fa-download"></i>
-                        </a>
+                        <button 
+                            onclick="openPdfViewer('https://drive.google.com/file/d/1CrTlbPfMyY-w-qMvk6qHNYaT4dI40eBk/view?usp=sharing', 'Meditaciones del Libro de Hechos')" 
+                            class="download-btn hover-accent-primary flex-shrink-0 font-semibold py-2 px-4 rounded-lg shadow-md"
+                            title="Ver documento incrustado"
+                        >
+                            <i class="fa-solid fa-eye mr-1"></i> Ver
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <!-- CONTENIDO NUEVA PESTAÑA: TRANSFERENCIAS -->
+            <!-- CONTENIDO PESTAÑA: TRANSFERENCIAS (Pagos) -->
             <div id="content-transfer" class="hidden">
                 <div class="mb-8">
                     <h2 class="text-3xl lg:text-4xl font-extrabold text-primary border-l-8 border-accent border-l-[var(--color-verde)] pl-4 rounded-l-lg">Datos de Transferencia</h2>
@@ -698,6 +787,54 @@
                 </div>
             </div>
 
+            <!-- NUEVO CONTENIDO PESTAÑA: HERRAMIENTAS BÍBLICAS -->
+            <div id="content-tools" class="hidden">
+                <div class="mb-8">
+                    <h2 class="text-3xl lg:text-4xl font-extrabold text-primary border-l-8 border-accent border-l-[var(--color-verde)] pl-4 rounded-l-lg">Herramientas Bíblicas y de Estudio</h2>
+                    <p class="text-gray-500 mt-2 pl-6 text-lg">Recursos externos esenciales para profundizar tu conocimiento de la Palabra.</p>
+                </div>
+                
+                <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+                    
+                    <!-- Enlace 1: BibleGateway -->
+                    <a href="https://www.biblegateway.com/" target="_blank" class="tool-card bg-white rounded-xl shadow-lg p-6 border-t-4 border-accent-1 flex flex-col justify-between hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+                        <div>
+                            <i class="fa-solid fa-book text-4xl text-accent-1 mb-4"></i>
+                            <h4 class="font-bold text-primary text-xl mb-2">BibleGateway</h4>
+                            <p class="description text-gray-600 text-sm">Plataforma líder para la lectura y estudio de la Biblia en múltiples versiones e idiomas, ideal para comparación y búsqueda rápida.</p>
+                        </div>
+                        <span class="mt-4 text-accent-1 font-semibold text-sm flex items-center">
+                            Ir al sitio <i class="fa-solid fa-arrow-right text-xs ml-2"></i>
+                        </span>
+                    </a>
+
+                    <!-- Enlace 2: Enduring Word -->
+                    <a href="https://es.enduringword.com/" target="_blank" class="tool-card bg-white rounded-xl shadow-lg p-6 border-t-4 border-accent-2 flex flex-col justify-between hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+                        <div>
+                            <i class="fa-solid fa-comment-dots text-4xl text-accent-2 mb-4"></i>
+                            <h4 class="font-bold text-primary text-xl mb-2">Enduring Word</h4>
+                            <p class="description text-gray-600 text-sm">Comentario bíblico exhaustivo, verso por verso, en línea y gratuito. Excelente para obtener contexto y aplicación inmediata.</p>
+                        </div>
+                        <span class="mt-4 text-accent-2 font-semibold text-sm flex items-center">
+                            Ir al sitio <i class="fa-solid fa-arrow-right text-xs ml-2"></i>
+                        </span>
+                    </a>
+
+                    <!-- Enlace 3: Biblia Interlineal -->
+                    <a href="https://logosklogos.com/" target="_blank" class="tool-card bg-white rounded-xl shadow-lg p-6 border-t-4 border-accent-3 flex flex-col justify-between hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
+                        <div>
+                            <i class="fa-solid fa-language text-4xl text-accent-3 mb-4"></i>
+                            <h4 class="font-bold text-primary text-xl mb-2">Biblia Interlineal Griego/Hebreo</h4>
+                            <p class="description text-gray-600 text-sm">Herramienta fundamental para consultar el texto original Griego y Hebreo palabra por palabra, con traducción literal.</p>
+                        </div>
+                        <span class="mt-4 text-accent-3 font-semibold text-sm flex items-center">
+                            Ir al sitio <i class="fa-solid fa-arrow-right text-xs ml-2"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+
+
             <!-- Bloque de Dirección Académica -->
             <div class="mt-16 pt-8 border-t border-gray-200 flex justify-center">
                 <div class="inline-block bg-white border border-gray-100 p-6 rounded-xl shadow-lg text-center">
@@ -716,6 +853,30 @@
         </main>
     </div> <!-- Fin de main-content -->
 
+    <!-- MODAL Visor de Documentos -->
+    <!-- El modal se cierra al hacer clic fuera de su contenido (event.stopPropagation() previene esto en el contenido interno) -->
+    <div id="pdfViewerModal" class="fixed inset-0 z-50 bg-black bg-opacity-70 hidden flex items-center justify-center p-4 transition-opacity duration-300" onclick="closePdfViewer()">
+        <div class="bg-white rounded-xl w-full max-w-6xl h-[90vh] overflow-hidden shadow-2xl flex flex-col" onclick="event.stopPropagation()">
+            <!-- Header del Modal -->
+            <div class="flex justify-between items-center p-4 border-b border-gray-200 flex-shrink-0">
+                <h3 id="modalTitle" class="text-xl font-bold text-primary truncate">Previsualización de Documento</h3>
+                <button onclick="closePdfViewer()" class="text-gray-500 hover:text-primary transition-colors focus:outline-none p-2 rounded-full hover:bg-gray-100">
+                    <i class="fa-solid fa-xmark text-2xl"></i>
+                </button>
+            </div>
+            <!-- Contenido del Modal (iFrame) -->
+            <!-- La altura del iframe ahora usa h-full y el padre tiene flex-col para ocupar el espacio restante -->
+            <div class="flex-grow w-full">
+                <iframe id="pdfIframe" src="" frameborder="0" class="w-full h-full"></iframe>
+            </div>
+            <!-- Footer para indicar acción de descarga -->
+            <div class="flex-shrink-0 p-3 bg-gray-50 border-t border-gray-200 text-sm text-gray-600 text-center">
+                <p><i class="fa-solid fa-info-circle text-primary mr-1"></i> Para descargar, utilice la opción de descarga dentro del visor o haga clic derecho en el documento.</p>
+            </div>
+        </div>
+    </div>
+
+
     <!-- LÓGICA DE PESTAÑAS Y CARGA INICIAL -->
     <script>
         // Cargar estado de checkboxes al iniciar
@@ -725,10 +886,10 @@
         }
 
         function switchTab(tabId) {
-            // IDs de contenidos
-            const contents = ['content-year3', 'content-year6', 'content-documents', 'content-transfer'];
-            // IDs de botones
-            const buttons = ['tab-year3', 'tab-year6', 'tab-documents', 'tab-transfer'];
+            // IDs de contenidos. AÑADIDO 'content-tools'
+            const contents = ['content-year3', 'content-year6', 'content-documents', 'content-transfer', 'content-tools'];
+            // IDs de botones. AÑADIDO 'tab-tools'
+            const buttons = ['tab-year3', 'tab-year6', 'tab-documents', 'tab-transfer', 'tab-tools'];
             
             // Ocultar todos los contenidos y desactivar botones
             contents.forEach(id => {
